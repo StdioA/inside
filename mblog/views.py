@@ -9,20 +9,37 @@ from .settings import verify_password
 # Create your views here.
 def index(request):
     post = Post.objects.filter(exist=True).order_by("pk").last()
-    print Post.objects.all()
     return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
 
 class PostView(generic.DetailView):
     model = Post
     template_name = "mblog/post.html"
 
+    def get_context_data(self, **kwargs):
+        context = super(PostView, self).get_context_data(**kwargs)
+        pk = self.object.id;
+        try:
+            previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
+        except (Post.DoesNotExist, IndexError):
+            previous_post_id = 0
+        try:
+            next_post_id = Post.objects.filter(pk__gt=pk, exist=True)[0].id
+        except (Post.DoesNotExist, IndexError):
+            next_post_id = 0
+
+        context["previous"] = previous_post_id
+        context["next"] = next_post_id
+        return context
+
 def add_comment(request, post_id):
     if request.method == "POST":
         post = get_object_or_404(Post, pk=post_id)
-        comment = Comment(post=post, 
-                          author=request.POST["author"],
-                          content=request.POST["content"])
-        comment.save()
+        author, content = request.POST["author"], request.POST["content"]
+        if author and content:
+            comment = Comment(post=post, 
+                              author=request.POST["author"],
+                              content=request.POST["content"])
+            comment.save()
         return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post_id}))
     else:
         return Http404()

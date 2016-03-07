@@ -11,11 +11,14 @@ class Post(models.Model):
     def __str__(self):
         return self.content.encode("utf-8")
 
-    def getObj(self):
+    def get_obj(self):
         return {
             "content": self.content.encode("utf-8"),
             "pub_date": self.pub_date.strftime("%Y-%m-%d %H:%M:%S")
         }
+
+    def get_time(self):
+        return self.pub_date.strftime("%Y-%m-%d %H:%M:%S")
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -25,7 +28,7 @@ class Comment(models.Model):
     def __str__(self):
         return self.content.encode("utf-8")
 
-    def getObj(self):
+    def get_obj(self):
         return {
             "content": self.content.encode("utf-8"),
             "author": self.author.encode("utf-8"),

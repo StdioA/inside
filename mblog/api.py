@@ -14,7 +14,7 @@ def comment(request, post_id):
             "comments": []
         }
         for comment in post.comment_set.all():
-            result["comments"].append(comment.getObj())
+            result["comments"].append(comment.get_obj())
         return JsonResponse(result)
     elif request.method == "POST":
         comment = Comment(post=post, 
@@ -38,6 +38,6 @@ def post(request, post_id):
             "comments": []
         }
         for comment in post.comment_set.all():
-            result["comments"].append(comment.getObj())
+            result["comments"].append(comment.get_obj())
 
         return JsonResponse(result)
