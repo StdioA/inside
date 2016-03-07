@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<title>Inside</title>
+</head>
+<body>
+	{{ post.content }}
+	<ul>
+	{% for comment in post.comment_set.all %}
+		<li>{{ comment.author }}：{{ comment.content }}</li>
+	{% endfor %}
+	<form action="{% url 'mblog:add_comment' post.id %}" method="post">
+		{% csrf_token %}
+		昵称：<input type="text" name="author" />
+		内容：<input type="text" name="content" />
+		<input type="submit" value="comment">
+	</form>
+	</ul>
+</body>
+</html>
