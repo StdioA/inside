@@ -1,3 +1,6 @@
+# coding: utf-8
+# TODO: Build API using Django REST Framework
+
 from django.http import JsonResponse
 from .models import Post, Comment
 
@@ -41,3 +44,5 @@ def post(request, post_id):
             result["comments"].append(comment.get_obj())
 
         return JsonResponse(result)
+    elif request.method == "PUT":       # 发布新的post
+        pass

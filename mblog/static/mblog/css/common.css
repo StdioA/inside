@@ -21,7 +21,7 @@ b,strong {
 body {
     margin: 0;
     font-size: 1em;
-    background: #62CA70;
+    background: #D2DDE8;
     color: #000;
 }
 
@@ -62,6 +62,7 @@ p {
 }
 
 input[type=text] {
+    text-align: left;
     background: rgba(0,0,0,0.1);
     border: none;
     color: #000;
@@ -73,8 +74,24 @@ input[type=text]:focus {
     /*background: rgba(0,0,0,0.4);*/
 }
 
+.center {
+    text-align: center;
+}
+
 .center * {
     text-align: center;
+}
+
+.right * {
+    /*text-align: right;*/
+}
+
+.right p {
+    text-align: right;
+}
+
+.time {
+    font-size: 90%;
 }
 
 .form-l {
@@ -273,6 +290,7 @@ nav a:hover {
     margin: 0 auto;
     padding: 0 0.5em 1em;
     text-align: left;
+    clear: both;
 }
 
 .row:first-child {
@@ -287,6 +305,15 @@ nav a:hover {
     vertical-align: top;
     box-sizing: border-box;
     padding: 0 0.5em;
+}
+
+.col.center {
+    text-align: center;
+}
+
+.col.center .col {
+    margin: 0 3px;
+    display: inline-block;
 }
 
 .col .row,.col .col {
@@ -385,6 +412,9 @@ nav a:hover {
         width: 100%;
     }
 
+    .col.center>.col {
+        display: inline;
+    }
     .col:first-child {
         margin-top: 0!important;
     }
@@ -500,7 +530,8 @@ button {
 button:active {
     background: rgba(0,0,0,0.3);
 }
-button.disabled {
+.disabled {
     cursor: default;
+    opacity: 0.7;
     pointer-events: none;
 }

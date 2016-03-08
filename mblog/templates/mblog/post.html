@@ -4,27 +4,27 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 	<title>Inside</title>
-	<link rel="stylesheet" href="/static/mblog/css/common.min.css">
+	<link rel="stylesheet" href="/static/mblog/css/common.css">
 </head>
 <body>
 	<div id="content_bg">
 		<div class="row">
-			<div class="col v1">
+			<div class="col v2">
 				<p>{{ post.content }}</p>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col v1">
+			<div class="col v2 right time">
 				<p>{{ post.get_time }}</p>
 			</div>
 		</div>
 		<div class="row">
-			<div class="col v1">
+			<div class="col v2">
 				<h3>Comments</h3>
 				{% for comment in post.comment_set.all %}
 					<p>{{ comment.author }}：{{ comment.content }}</p>
 				{% endfor %}
-				<form action="{% url 'mblog:add_comment' post.id %}" method="post">
+				<form class="center" action="{% url 'mblog:add_comment' post.id %}" method="post">
 					{% csrf_token %}
 					<p>
 						<label for="comment_nickname" class="form-l" for="author">昵称：</label>
@@ -34,20 +34,27 @@
 						<label for="comment_nickname" class="form-l" for="content">内容：</label>
 						<input type="text" class="form-r" name="content" />
 					</p>
-					<br />
+					{# <br /> #}
 					<p>
 						<button type="submit" value="评论">评论</button>
 					</p>
 				</form>
 			</div>
-			<div class="row">
-				<div class="col v1">
-					<a href="{% url 'mblog:post' previous %}" class="link">上一篇</a>
-					<a href="{% url 'mblog:post' next %}" class="link">下一篇</a>
-				</div>
-			</div>
 		</div>
-		
+		<div class="row">
+			<div class="col v2 center">
+				{# {% if previous %} #}
+					<div class="col {% if not previous %}disabled{% endif %}">
+						<a href="{% url 'mblog:post' previous %}" class="link">上一篇</a>
+					</div>
+				{# {% endif %} #}
+				{# {% if next %} #}
+					<div class="col {% if not next %}disabled{% endif %}">
+						<a href="{% url 'mblog:post' next %}" class="link">下一篇</a>
+					</div>
+				{# {% endif %} #}
+			</div>
+		</div>		
 	</div>
 </body>
 </html>
