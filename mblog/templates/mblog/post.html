@@ -1,13 +1,15 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="zh">
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 	<title>Inside</title>
-	<link rel="stylesheet" href="/static/mblog/css/common.css">
+	<link rel="stylesheet" href="{% static "mblog/css/common.css" %}">
+	<script type="text/javascript" href="{% static "mblog/js/vue.js" %}"></script>
 </head>
 <body>
-	<div id="content_bg">
+	<div id="content_bg" post-id="{{ current }}">
 		<div class="row">
 			<div class="col v2">
 				<p>{{ post.content }}</p>
@@ -43,18 +45,15 @@
 		</div>
 		<div class="row">
 			<div class="col v2 center">
-				{# {% if previous %} #}
-					<div class="col {% if not previous %}disabled{% endif %}">
-						<a href="{% url 'mblog:post' previous %}" class="link">上一篇</a>
-					</div>
-				{# {% endif %} #}
-				{# {% if next %} #}
-					<div class="col {% if not next %}disabled{% endif %}">
-						<a href="{% url 'mblog:post' next %}" class="link">下一篇</a>
-					</div>
-				{# {% endif %} #}
+				<div class="col {% if not previous %}disabled{% endif %}">
+					<a href="{% url 'mblog:post' previous %}" class="link">上一篇</a>
+				</div>
+				<div class="col {% if not next %}disabled{% endif %}">
+					<a href="{% url 'mblog:post' next %}" class="link">下一篇</a>
+				</div>
 			</div>
 		</div>		
 	</div>
+	<script type="text/javascript" src="{% static "mblog/js/main.js" %}"></script>
 </body>
 </html>

@@ -28,8 +28,13 @@ class PostView(generic.DetailView):
             next_post_id = 0
 
         context["previous"] = previous_post_id
+        context["current"] = pk
         context["next"] = next_post_id
         return context
+
+def view_post(request, pk):
+    with file("mblog/static/mblog/html/post.html", "r") as f:
+        return HttpResponse(f.read())
 
 def add_comment(request, post_id):
     if request.method == "POST":

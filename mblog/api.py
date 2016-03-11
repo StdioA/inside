@@ -33,9 +33,21 @@ def post(request, post_id):
         return JsonResponse({"success": False, "reason": "Post not exist"})
 
     if request.method == "GET":
+        pk = post_id
+        try:
+            previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
+        except (Post.DoesNotExist, IndexError):
+            previous_post_id = 0
+        try:
+            next_post_id = Post.objects.filter(pk__gt=pk, exist=True)[0].id
+        except (Post.DoesNotExist, IndexError):
+            next_post_id = 0
+
         result = {
             "success": True,
             "id": post_id,
+            "previous_id": previous_post_id,
+            "next_id": next_post_id,
             "content": post.content.encode("utf-8"),
             "pub_date": post.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
             "comments": []
