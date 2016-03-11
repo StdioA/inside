@@ -1,0 +1,13 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>{% block title %}Inside{% endblock %}</title>
+	<link rel="stylesheet" href="{% static "mblog/css/common.css" %}">
+</head>
+<body>
+	{% block content %}
+	{% endblock %}
+</body>
+</html>

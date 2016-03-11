@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.core.urlresolvers import reverse
 from django.views import generic
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
 from .settings import verify_password
@@ -11,30 +13,11 @@ def index(request):
     post = Post.objects.filter(exist=True).order_by("pk").last()
     return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
 
-class PostView(generic.DetailView):
-    model = Post
-    template_name = "mblog/post.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(PostView, self).get_context_data(**kwargs)
-        pk = self.object.id;
-        try:
-            previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
-        except (Post.DoesNotExist, IndexError):
-            previous_post_id = 0
-        try:
-            next_post_id = Post.objects.filter(pk__gt=pk, exist=True)[0].id
-        except (Post.DoesNotExist, IndexError):
-            next_post_id = 0
-
-        context["previous"] = previous_post_id
-        context["current"] = pk
-        context["next"] = next_post_id
-        return context
 
 def view_post(request, pk):
     with file("mblog/static/mblog/html/post.html", "r") as f:
         return HttpResponse(f.read())
+
 
 def add_comment(request, post_id):
     if request.method == "POST":
@@ -49,5 +32,7 @@ def add_comment(request, post_id):
     else:
         return Http404()
 
-def verify(request):
-    return Http404()
+
+@login_required
+def manage_post(request):
+    return render(request, "mblog/manage.html")

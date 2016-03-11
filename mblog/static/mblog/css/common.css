@@ -65,7 +65,7 @@ p {
     margin: auto 10px;
 }
 
-input[type=text] {
+input[type=text],input[type=password] {
     text-align: left;
     background: rgba(0,0,0,0.1);
     border: none;
@@ -523,7 +523,7 @@ nav a:hover {
     -o-transition: all .5s ease-out;
     transition: all .5s ease-out;
 }
-button {
+button, input[type=submit] {
     background: rgba(0,0,0,0.15);
     border: 0;
     color: #000;
