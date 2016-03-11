@@ -523,13 +523,19 @@ nav a:hover {
     -o-transition: all .5s ease-out;
     transition: all .5s ease-out;
 }
-button, input[type=submit] {
+button, input[type=submit], textarea {
     background: rgba(0,0,0,0.15);
     border: 0;
     color: #000;
     padding: 0 1em;
     box-sizing: border-box;
     height: 2em;
+}
+textarea {
+    padding: 0.5em;
+    font-size: 1.2em;
+    min-height: 8em;
+    min-width: 20em;
 }
 button:active {
     background: rgba(0,0,0,0.3);

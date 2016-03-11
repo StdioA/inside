@@ -1,3 +1,4 @@
+import datetime
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.core.urlresolvers import reverse
@@ -35,4 +36,10 @@ def add_comment(request, post_id):
 
 @login_required
 def manage_post(request):
-    return render(request, "mblog/manage.html")
+    if request.method == "GET":
+        return render(request, "mblog/manage.html")
+    elif request.method == "POST":
+        post = Post(content=request.POST["content"],
+                    pub_date=datetime.datetime.now())
+        post.save()
+        return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))

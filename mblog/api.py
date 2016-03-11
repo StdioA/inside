@@ -8,7 +8,7 @@ def comment(request, post_id):
     try:
         post = Post.objects.get(pk=post_id, exist=True)
     except Post.DoesNotExist:
-        return JsonResponse({"success": False, "reason": "Post not exist"})
+        return JsonResponse({"success": False, "reason": "Post does not exist"})
 
     if request.method == "GET":
         result = {
@@ -30,7 +30,7 @@ def post(request, post_id):
     try:
         post = Post.objects.get(pk=post_id, exist=True)
     except Post.DoesNotExist:
-        return JsonResponse({"success": False, "reason": "Post not exist"})
+        return JsonResponse({"success": False, "reason": "Post does not exist"})
 
     if request.method == "GET":
         pk = post_id

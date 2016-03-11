@@ -20,6 +20,7 @@ function getCookie(name) {
 var app = new Vue({
 	data: {
 		show: true,
+		error: {status: false, message: ""},
 		post_id: 0,
 		post: {}, 
 		csrf_token: getCookie('csrftoken')
@@ -66,8 +67,14 @@ var app = new Vue({
 $(document).ready(function () {
 	var post_id = window.location.pathname.split("/")[1];
 	$.getJSON("/api/"+post_id+"/", function (data, status) {
-		app.post_id = post_id;
-		app.post = data;
+		if (status == "success" && data.success) {
+			app.post_id = post_id;
+			app.post = data;
+		}
+		else {
+			app.error.status = true;
+			app.error.message = data.reason;
+		}
 		app.$mount("#content_bg");
 	});
 });

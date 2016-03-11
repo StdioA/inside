@@ -12,14 +12,23 @@
 <body>
 	<div id="content_bg" post-id="{{ post_id }}">
 		<div v-show="show" transition="fade">
-			<div class="row">
-				<div class="col v2">
-					<p>{{ post.content }}</p>
+			<div v-show="!error.status">
+				<div class="row">
+					<div class="col v2">
+						<p>{{ post.content }}</p>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col v2 right time">
+						<p>{{ post.pub_date}}</p>
+					</div>
 				</div>
 			</div>
-			<div class="row">
-				<div class="col v2 right time">
-					<p>{{ post.pub_date}}</p>
+			<div v-else>
+				<div class="center row">
+					<div class="col v2">
+						<h2>{{ error.message }}</h2>
+					</div>
 				</div>
 			</div>
 			<div class="row">
