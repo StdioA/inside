@@ -15,7 +15,7 @@
 			<div v-show="!error.status">
 				<div class="row">
 					<div class="col v2">
-						<p>{{ post.content }}</p>
+						<p v-for="line in post.content.split('\n')">{{ line }}</p>
 					</div>
 				</div>
 				<div class="row">

@@ -536,6 +536,7 @@ textarea {
     font-size: 1.2em;
     min-height: 8em;
     min-width: 20em;
+    text-align: left!important;
 }
 button:active {
     background: rgba(0,0,0,0.3);
