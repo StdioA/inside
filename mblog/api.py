@@ -56,5 +56,28 @@ def post(request, post_id):
             result["comments"].append(comment.get_obj())
 
         return JsonResponse(result)
-    elif request.method == "PUT":       # 发布新的post
-        pass
+
+    elif request.method == "POST":                       # 更改POST
+        if request.user.is_authenticated():
+            post = Post.objects.get(pk=post_id)
+            post.content = request.POST["content"]
+            post.save()
+            return JsonResponse({"success": True})
+
+        else:
+            return JsonResponse({
+                        "success": False,
+                        "reason": "Login Required"
+                    })
+            
+    elif request.method == "DELETE":                     # 删除POST
+        if request.user.is_authenticated():
+            post = Post.objects.get(pk=post_id)
+            post.exist = False
+            post.save()
+            return JsonResponse({"success": True})
+        else:
+            return JsonResponse({
+                        "success": False,
+                        "reason": "Login Required"
+                    })            

@@ -578,3 +578,7 @@ button:active {
 .fade-leave {
     animation: fadeOut 0.5s;
 }
+
+.green {
+    background: rgba(77, 239, 98, 0.7);
+}

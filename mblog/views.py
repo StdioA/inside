@@ -16,8 +16,27 @@ def index(request):
 
 
 def view_post(request, pk):
-    with file("mblog/static/mblog/html/post.html", "r") as f:
-        return HttpResponse(f.read())
+    if request.user.is_authenticated():
+        post = Post.objects.get(pk=pk)
+        pk = post.id
+        try:
+            previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
+        except (Post.DoesNotExist, IndexError):
+            previous_post_id = 0
+        try:
+            next_post_id = Post.objects.filter(pk__gt=pk, exist=True)[0].id
+        except (Post.DoesNotExist, IndexError):
+            next_post_id = 0
+
+        context = {
+                    "post":post,
+                    "previous": previous_post_id,
+                    "next": next_post_id
+                }
+        return render(request, "mblog/post.html", context)
+    else:
+        with file("mblog/static/mblog/html/post.html", "r") as f:
+            return HttpResponse(f.read())
 
 
 def add_comment(request, post_id):
