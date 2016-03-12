@@ -4,6 +4,12 @@ var app = new Vue({
 	data: {
 		ready: false,
 		posts: []
+	},
+	methods: {
+		click: function (event) {
+			var post = event.target.id.replace("post-", "")
+			location.href = "/"+post;
+		}
 	}
 });
 

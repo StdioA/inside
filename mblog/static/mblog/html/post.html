@@ -6,11 +6,21 @@
 	<title>Inside</title>
 	<link rel="stylesheet" href="/static/mblog/css/common.css">
 	<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
-	<!-- <script src="//cdn.bootcss.com/vue/1.0.17/vue.min.js"></script> -->
-	<script src="/static/mblog/js/vue.js"></script>
+	<script src="//cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+	<!-- <script src="/static/mblog/js/vue.js"></script> -->
 </head>
 <body>
 	<div id="content_bg" post-id="{{ post_id }}">
+		<div class="mini row">
+			<div class="col v2 right">
+				<p><a href="/archive">Archive</a></p>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col v2 center">
+				<h2>Inside</h2>
+			</div>
+		</div>
 		<div v-show="show" transition="fade">
 			<div v-show="!error.status">
 				<div class="row">
