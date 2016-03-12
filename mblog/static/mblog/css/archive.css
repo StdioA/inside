@@ -44,8 +44,10 @@ div[v-show] {
 	background: #ffd707;
 	position: relative;
 	min-height: 6em;
+	min-width: 10em;
 	display: inline-block;
 	margin: 1.5em 1em;
+	vertical-align: top;
 }
 
 .post-it-note:after {
@@ -68,6 +70,7 @@ div[v-show] {
 	border-style: solid;
 	/*border-color: #d3b100 transparent;*/
 	border-color: rgba(255,215,7,0.4) transparent;
+	z-index: -1;
 }
 
 .post-it-note .hash {
@@ -76,6 +79,14 @@ div[v-show] {
 	position: absolute;
 	right: 10px;
 	top: -5px;
+}
+.post-it-note .time {
+	font-size: 0.6em;
+	color: #666;
+	position: absolute;
+	left: 10px;
+	bottom: -35px;
+	z-index: 1;
 }
 
 @keyframes fadeIn {
