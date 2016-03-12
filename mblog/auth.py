@@ -5,6 +5,8 @@ from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 
 def user_login(request):
+    next_url = request.GET.dict().get("next", "/0")
+
     if request.method == "GET":
         return render(request, "mblog/login.html")
     elif request.method == "POST":
@@ -14,9 +16,9 @@ def user_login(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                return HttpResponseRedirect(reverse("mblog:manage"))
+                return HttpResponseRedirect(next_url)
         else:
-            return render(request, "mblog/login.html")
+            return HttpResponseRedirect(request.get_full_path())
 
 
 def user_logout(request):

@@ -7,7 +7,6 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
-from .settings import verify_password
 
 # Create your views here.
 def index(request):
@@ -20,11 +19,11 @@ def view_post(request, pk):
         post = Post.objects.get(pk=pk)
         pk = post.id
         try:
-            previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
+            previous_post_id = Post.objects.filter(pk__lt=pk).order_by("-pk")[0].id
         except (Post.DoesNotExist, IndexError):
             previous_post_id = 0
         try:
-            next_post_id = Post.objects.filter(pk__gt=pk, exist=True)[0].id
+            next_post_id = Post.objects.filter(pk__gt=pk)[0].id
         except (Post.DoesNotExist, IndexError):
             next_post_id = 0
 

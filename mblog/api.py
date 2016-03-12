@@ -26,6 +26,7 @@ def comment(request, post_id):
         comment.save()
         return JsonResponse({"success": True})
 
+
 def post(request, post_id):
     try:
         post = Post.objects.get(pk=post_id, exist=True)
