@@ -582,3 +582,8 @@ button:active {
 .green {
     background: rgba(77, 239, 98, 0.7);
 }
+
+.bg-blue {background: #ecf3fa;}
+.bg-green {background: #f1f9f3;}
+.bg-yellow {background: #fef8e6;}
+.bg-purple {background: #f9f1f8;}

@@ -65,6 +65,11 @@ var app = new Vue({
 });
 
 $(document).ready(function () {
+	// 随机背景色
+	var colors = ["blue", "green", "yellow", "purple"];
+	var color = colors[Math.floor(Math.random()*colors.length)];
+	$("body").addClass("bg-"+color);
+
 	var post_id = window.location.pathname.split("/")[1];
 	$.getJSON("/api/"+post_id+"/", function (data, status) {
 		if (status == "success" && data.success) {

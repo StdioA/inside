@@ -32,16 +32,6 @@ $(document).ready(function () {
 					}, 1000);
 				}
 			});
-		// 	$.post(url, {
-		// 					csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-		// 					_method: "DELETE"
-		// 				}, 
-		// 			function (data, success) {
-		// 				$("#delete").addClass("green");
-		// 				setTimeout(function () {
-		// 					$("#delete").removeClass("green");
-		// 				}, 1000);
-		// 			});
 		}
 	});
 });
