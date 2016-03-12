@@ -10,6 +10,7 @@ class Post(models.Model):
 
     def __str__(self):
         return self.content.encode("utf-8")
+        # return self.id
 
     def get_obj(self):
         return {

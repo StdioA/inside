@@ -37,6 +37,9 @@ def view_post(request, pk):
         with file("mblog/static/mblog/html/post.html", "r") as f:
             return HttpResponse(f.read())
 
+def archive(request):
+    with file("mblog/static/mblog/html/archive.html", "r") as f:
+        return HttpResponse(f.read())
 
 def add_comment(request, post_id):
     if request.method == "POST":

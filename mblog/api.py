@@ -82,3 +82,46 @@ def post(request, post_id):
                         "success": False,
                         "reason": "Login Required"
                     })            
+
+def __get_post_data(post):
+    result = {
+            "id": post.id,
+            "content": post.content.encode("utf-8"),
+            "pub_date": post.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
+            "comments": []
+        }
+    for comment in post.comment_set.all():
+        result["comments"].append(comment.get_obj())
+
+    return result
+
+
+def archive(request, post_id, number):
+    """
+    /api/archive/9/counts/2
+    从第9个开始倒数2个
+    """
+    data = {
+        "success": True,
+        "posts": []
+    }
+    if not number:
+        number = 6
+
+    if not post_id:
+        posts = Post.objects.filter(exist=True).order_by("-pk")[0:number]
+    else:
+        posts = Post.objects.filter(pk__lte=post_id,
+                                    exist=True).order_by("-pk")[0:number]
+
+    for post in posts:
+        data["posts"].append(__get_post_data(post))
+
+    return JsonResponse(data)
+
+
+def get_latest(request):
+    post_id = Post.objects.filter(exist=True).order_by("-pk").first().id;
+    return JsonResponse({
+            "latest": post_id
+        })

@@ -4,7 +4,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 	<title>Inside</title>
-	<link rel="stylesheet" href="/static/mblog/css/common.min.css">
+	<link rel="stylesheet" href="/static/mblog/css/common.css">
 	<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
 	<!-- <script src="//cdn.bootcss.com/vue/1.0.17/vue.min.js"></script> -->
 	<script src="/static/mblog/js/vue.js"></script>
@@ -15,7 +15,7 @@
 			<div v-show="!error.status">
 				<div class="row">
 					<div class="col v2">
-						<p v-for="line in post.content.split('\n')">{{ line }}</p>
+						<p v-for="line in post.content.split('\n')">{{{ line }}}</p>
 					</div>
 				</div>
 				<div class="row">
