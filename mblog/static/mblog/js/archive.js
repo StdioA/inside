@@ -9,7 +9,7 @@ var app = new Vue({
 
 $(document).ready(function () {
 	var lat = Number(location.hash.replace("#", ""));
-	if (Object.is(lat, NaN)) {
+	if (Object.is(lat, NaN) || lat <= 0) {
 		lat = "";
 	}
 	else {
