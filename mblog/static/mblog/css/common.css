@@ -272,7 +272,7 @@ nav a:hover {
     line-height: 1.5em;
 }
 
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 768px) {
     header>* {
         margin:0.4em 0;
     }
@@ -288,6 +288,9 @@ nav a:hover {
 
     #content_bg {
         top: 150px!important;
+    }
+    .v2 {
+        width: 100%;
     }
 }
 
@@ -353,7 +356,7 @@ nav a:hover {
     font-size: 1.2em;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 769px) {
     ::-webkit-scrollbar {
         display:none;
     }
@@ -542,6 +545,28 @@ textarea {
     min-height: 10em;
     min-width: 25em;
     text-align: left!important;
+}
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    /*background: rgba(0,0,0,0.05);*/
+}
+::-webkit-scrollbar-button {
+    display: none;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(0,0,0,0.1);
+    border-right: 1px solid transparent;
+    border-left: 1px solid transparent;
+    border-radius: 8px;
+}
+::-webkit-scrollbar-corner {
+    display: none;
+    width: 0;
+    height: 0;
+}
+::-webkit-resizer, ::-webkit-scrollbar-track {
+    display: none;
 }
 button:active {
     background: rgba(0,0,0,0.3);
