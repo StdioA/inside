@@ -1,0 +1,18 @@
+{% extends "mblog/base.html" %}
+{% load staticfiles %}
+{% block title %}404{% endblock %}
+
+{% block content %}
+<div id="content_bg" post-id="{{ post_id }}">
+	<div class="mini row">
+		<div class="col v2 right">
+			<p><a href="/archive">Archive</a></p>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col v2 center">
+			<h2>500 Internal Server Error</h2>
+		</div>
+	</div>
+</div>
+{% endblock %}

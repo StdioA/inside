@@ -15,7 +15,9 @@
 		<div class="post-it-note" v-for="post in posts" v-show="ready" transition="fade" id="post-{{ post.id }}" v-on:click="click">
 			<div class="hash">#{{ post.id }}</div>
 			<div class="content">
-				<p v-for="line in post.content.split('\n').slice(0,3)">{{ line }}</p>
+				<p v-for="line in post.content.split('\n').slice(0,3)">
+					{{ line.length<40?line:line.slice(0,40)+"…" }}
+				</p>
 			</div>
 			<div class="time">{{ post.pub_date }}</div>
 		</div>

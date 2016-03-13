@@ -41,20 +41,6 @@ def archive(request):
     with file("mblog/static/mblog/html/archive.html", "r") as f:
         return HttpResponse(f.read())
 
-def add_comment(request, post_id):
-    if request.method == "POST":
-        post = get_object_or_404(Post, pk=post_id)
-        author, content = request.POST["author"], request.POST["content"]
-        if author and content:
-            comment = Comment(post=post, 
-                              author=request.POST["author"],
-                              content=request.POST["content"])
-            comment.save()
-        return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post_id}))
-    else:
-        return Http404()
-
-
 @login_required
 def manage_post(request):
     if request.method == "GET":
