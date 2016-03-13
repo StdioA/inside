@@ -30,7 +30,7 @@
 			{% for comment in post.comment_set.all %}
 				<p>{{ comment.author }}：{{ comment.content }}</p>
 			{% endfor %}
-			<form class="center" action="{% url 'mblog:api_comment' post.id %}" method="post">
+			<div id="comment" class="center" method="post">
 				{% csrf_token %}
 				<p>
 					<label for="comment_nickname" class="form-l" for="author">昵称：</label>
@@ -40,11 +40,10 @@
 					<label for="comment_nickname" class="form-l" for="content">内容：</label>
 					<input type="text" class="form-r" name="content" />
 				</p>
-				{# <br /> #}
 				<p>
 					<button type="submit" value="评论">评论</button>
 				</p>
-			</form>
+			</div>
 		</div>
 	</div>
 	<div class="row">

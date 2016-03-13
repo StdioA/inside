@@ -16,7 +16,7 @@ def index(request):
 
 def view_post(request, pk):
     if request.user.is_authenticated():
-        post = Post.objects.get(pk=pk)
+        post = get_object_or_404(Post, pk=pk)
         pk = post.id
         try:
             previous_post_id = Post.objects.filter(pk__lt=pk).order_by("-pk")[0].id
