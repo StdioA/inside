@@ -29,7 +29,7 @@ var app = new Vue({
 		add_comment: function (event) {
 			var app = this;
 			var post_data = {
-				csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
+				csrfmiddlewaretoken: getCookie('csrftoken'),
 				author: $("input[name=author]").val(),
 				content: $("input[name=content]").val()
 			};
@@ -54,7 +54,7 @@ var app = new Vue({
 			else if (event.target.id == "pagedown") {
 				post_id = this.post.next_id;
 			}
-			$.getJSON("/api/"+post_id+"/", function (data, status) {
+			$.getJSON("/api/"+post_id, function (data, status) {
 				app.show = true;
 				app.post_id = post_id;
 				app.post = data;
@@ -71,7 +71,7 @@ $(document).ready(function () {
 	$("body").addClass("bg-"+color);
 
 	var post_id = window.location.pathname.split("/")[1];
-	$.getJSON("/api/"+post_id+"/", function (data, status) {
+	$.getJSON("/api/"+post_id, function (data, status) {
 		if (status == "success" && data.success) {
 			app.post_id = post_id;
 			app.post = data;

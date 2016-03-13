@@ -15,6 +15,6 @@ urlpatterns = [
     # url(r'^(?P<post_id>\d+)/comment$', views.add_comment, name='add_comment'),
     url(r'^api/latest$', api.get_latest, name='api_latest'),
     url(r'^api/comment/(?P<post_id>\d+)$', api.comment, name='api_comment'),
-    url(r'^api/(post/)?(?P<post_id>\d+)?$', api.post, name='api_post'),
+    url(r'^api/(post/)?(?P<post_id>\d+)$', api.post, name='api_post'),
     url(r'^api/archive/((?P<post_id>\d+)/)?((counts/)(?P<number>\d+)/)?$', api.archive, name='api_archive'),
 ]

@@ -8,7 +8,11 @@ var app = new Vue({
 	methods: {
 		click: function (event) {
 			var post = event.target.id.replace("post-", "")
+			console.log("/"+post);
 			location.href = "/"+post;
+			// setTimeout(function () {
+				
+			// }, 3000);
 		}
 	}
 });

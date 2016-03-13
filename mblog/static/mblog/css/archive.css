@@ -30,6 +30,10 @@ div[v-show] {
 	display: none;
 }
 
+.post-it-note * {
+	pointer-events: none;
+}
+
 .post-it-note .content {
 	height: 100%;
 	display: block;
