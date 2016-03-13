@@ -28,12 +28,13 @@ def comment(request, post_id):
 
 
 def post(request, post_id):
-    try:
-        post = Post.objects.get(pk=post_id, exist=True)
-    except Post.DoesNotExist:
-        return JsonResponse({"success": False, "reason": "Post does not exist"})
 
     if request.method == "GET":
+        try:
+            post = Post.objects.get(pk=post_id, exist=True)
+        except Post.DoesNotExist:
+            return JsonResponse({"success": False, "reason": "Post does not exist"})
+
         pk = post_id
         try:
             previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
@@ -60,8 +61,14 @@ def post(request, post_id):
 
     elif request.method == "POST":                       # 更改POST
         if request.user.is_authenticated():
+            try:
+                post = Post.objects.get(pk=post_id)
+            except Post.DoesNotExist:
+                return JsonResponse({"success": False, "reason": "Post does not exist"})
+
             post = Post.objects.get(pk=post_id)
             post.content = request.POST["content"]
+            post.exist = request.POST["exist"]
             post.save()
             return JsonResponse({"success": True})
 
@@ -73,6 +80,11 @@ def post(request, post_id):
             
     elif request.method == "DELETE":                     # 删除POST
         if request.user.is_authenticated():
+            try:
+                post = Post.objects.get(pk=post_id)
+            except Post.DoesNotExist:
+                return JsonResponse({"success": False, "reason": "Post does not exist"})
+
             post = Post.objects.get(pk=post_id)
             post.exist = False
             post.save()

@@ -3,12 +3,13 @@
 $(document).ready(function () {
 	$("#form button").on("click", function (event) {
 		var post_id = $("#content_bg").attr("post-id");
-		var url = "/api/"+post_id+"/";
+		var url = "/api/"+post_id;
 		var button = event.target;
 		if (button.id == "update") {
 			$.post(url, {
 							csrfmiddlewaretoken: $("input[name=csrfmiddlewaretoken]").val(),
-							content: $("textarea").first().val()
+							content: $("textarea").first().val(),
+							exist: document.getElementsByName("exist")[0].checked
 						}, 
 					function (data, success) {
 						if (data.success == true) {

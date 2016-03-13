@@ -32,7 +32,7 @@ def view_post(request, pk):
                     "previous": previous_post_id,
                     "next": next_post_id
                 }
-        return render(request, "mblog/post.html", context)
+        return render(request, "mblog/edit.html", context)
     else:
         with file("mblog/static/mblog/html/post.html", "r") as f:
             return HttpResponse(f.read())
@@ -58,7 +58,7 @@ def add_comment(request, post_id):
 @login_required
 def manage_post(request):
     if request.method == "GET":
-        return render(request, "mblog/manage.html")
+        return render(request, "mblog/new.html")
     elif request.method == "POST":
         post = Post(content=request.POST["content"],
                     pub_date=datetime.datetime.now())
