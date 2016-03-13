@@ -10,9 +10,18 @@ var app = new Vue({
 			var post = event.target.id.replace("post-", "")
 			console.log("/"+post);
 			location.href = "/"+post;
-			// setTimeout(function () {
-				
-			// }, 3000);
+		},
+		get_summary: function () {
+			var posts = this.posts;
+			return posts.map(function (post) {
+				post.summary = post.content.split("\n").slice(0,3).map(function (line) {
+					if (line.length>40) {
+						line = line.slice(0,40)+"…";
+					}
+					return line;
+				});
+				return post;
+			});
 		}
 	}
 });
@@ -34,3 +43,4 @@ $(document).ready(function () {
 		app.ready = true;
 	});
 });
+
