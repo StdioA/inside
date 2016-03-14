@@ -4,6 +4,20 @@
 from django.http import JsonResponse
 from .models import Post, Comment
 
+
+def __get_post_data(post):
+    result = {
+            "id": post.id,
+            "content": post.content.encode("utf-8"),
+            "pub_date": post.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
+            "comments": []
+        }
+    for comment in post.comment_set.all():
+        result["comments"].append(comment.get_obj())
+
+    return result
+
+
 def comment(request, post_id):
     try:
         post = Post.objects.get(pk=post_id, exist=True)
@@ -28,7 +42,6 @@ def comment(request, post_id):
 
 
 def post(request, post_id):
-
     if request.method == "GET":
         try:
             post = Post.objects.get(pk=post_id, exist=True)
@@ -47,15 +60,10 @@ def post(request, post_id):
 
         result = {
             "success": True,
-            "id": post_id,
             "previous_id": previous_post_id,
             "next_id": next_post_id,
-            "content": post.content.encode("utf-8"),
-            "pub_date": post.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
-            "comments": []
+            "post": __get_post_data(post)
         }
-        for comment in post.comment_set.all():
-            result["comments"].append(comment.get_obj())
 
         return JsonResponse(result)
 
@@ -93,19 +101,7 @@ def post(request, post_id):
             return JsonResponse({
                         "success": False,
                         "reason": "Login Required"
-                    })            
-
-def __get_post_data(post):
-    result = {
-            "id": post.id,
-            "content": post.content.encode("utf-8"),
-            "pub_date": post.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
-            "comments": []
-        }
-    for comment in post.comment_set.all():
-        result["comments"].append(comment.get_obj())
-
-    return result
+                    })
 
 
 def archive(request, post_id, number):
@@ -115,7 +111,6 @@ def archive(request, post_id, number):
     """
     data = {
         "success": True,
-        "posts": []
     }
     if not number:
         number = 6
@@ -126,8 +121,7 @@ def archive(request, post_id, number):
         posts = Post.objects.filter(pk__lte=post_id,
                                     exist=True).order_by("-pk")[0:number]
 
-    for post in posts:
-        data["posts"].append(__get_post_data(post))
+    data["posts"] = map(__get_post_data, posts)
 
     return JsonResponse(data)
 

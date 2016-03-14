@@ -22,6 +22,8 @@ var app = new Vue({
 		show: true,
 		error: {status: false, message: ""},
 		post_id: 0,
+		previous_id: 0,
+		next_id: 0,
 		post: {}, 
 		csrf_token: getCookie('csrftoken')
 	},
@@ -49,15 +51,17 @@ var app = new Vue({
 			var post_id;
 			this.show = false;
 			if (event.target.id == "pageup") {
-				post_id = this.post.previous_id;
+				post_id = this.previous_id;
 			}
 			else if (event.target.id == "pagedown") {
-				post_id = this.post.next_id;
+				post_id = this.next_id;
 			}
 			$.getJSON("/api/"+post_id, function (data, status) {
 				app.show = true;
-				app.post_id = post_id;
-				app.post = data;
+				app.post_id = data.post.id;
+				app.post = data.post;
+				app.previous_id = data.previous_id;
+				app.next_id = data.next_id;
 				history.pushState({}, "", "/"+post_id);
 			});
 		}
@@ -73,8 +77,10 @@ $(document).ready(function () {
 	var post_id = window.location.pathname.split("/")[1];
 	$.getJSON("/api/"+post_id, function (data, status) {
 		if (status == "success" && data.success) {
-			app.post_id = post_id;
-			app.post = data;
+			app.post_id = data.post.id;
+			app.post = data.post;
+			app.previous_id = data.previous_id;
+			app.next_id = data.next_id;
 		}
 		else {
 			app.error.status = true;

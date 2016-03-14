@@ -12,10 +12,10 @@
 <body>
 	<h1>Archive</h1>
 	<div id="archives">
-		<div class="post-it-note" v-for="post in get_summary()" v-show="ready" transition="fade" id="post-{{ post.id }}" v-on:click="click">
+		<div class="post-it-note" v-for="post in posts" v-show="ready" transition="fade" id="post-{{ post.id }}" v-on:click="click">
 			<div class="hash">#{{ post.id }}</div>
 			<div class="content">
-				<p v-for="line in post.summary">
+				<p v-for="line in get_summary(post)" track-by="$index">
 					{{ line }}
 				</p>
 			</div>

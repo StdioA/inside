@@ -63,10 +63,10 @@
 			</div>
 			<div class="row">
 				<div class="col v2 center">
-					<div class="col {{ post.previous_id?'':'disabled' }}">
+					<div class="col {{ previous_id?'':'disabled' }}">
 						<button v-on:click="jump" id="pageup">上一篇</button>
 					</div>
-					<div class="col {{ post.next_id?'':'disabled' }}">
+					<div class="col {{ next_id?'':'disabled' }}">
 						<button v-on:click="jump" id="pagedown">下一篇</button>
 					</div>
 				</div>

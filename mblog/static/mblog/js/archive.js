@@ -11,17 +11,15 @@ var app = new Vue({
 			console.log("/"+post);
 			location.href = "/"+post;
 		},
-		get_summary: function () {
-			var posts = this.posts;
-			return posts.map(function (post) {
-				post.summary = post.content.split("\n").slice(0,3).map(function (line) {
+		get_summary: function (post) {
+			console.log(1);
+			var summary = post.content.split("\n").slice(0,3).map(function (line) {
 					if (line.length>40) {
 						line = line.slice(0,40)+"…";
 					}
 					return line;
 				});
-				return post;
-			});
+			return summary;
 		}
 	}
 });
@@ -34,8 +32,6 @@ $(document).ready(function () {
 	else {
 		lat = String(lat);
 	}
-
-	console.log(lat);
 
 	$.get("/api/archive/"+lat, function (data) {
 		app.posts = data.posts;
