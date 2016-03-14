@@ -30,6 +30,12 @@ div[v-show] {
 	display: none;
 }
 
+div.more {
+	height: 20px;
+	color: #91e035;
+	font-size: 1.5em;
+}
+
 .post-it-note * {
 	pointer-events: none;
 }

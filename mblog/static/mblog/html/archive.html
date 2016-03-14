@@ -4,9 +4,10 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 	<title>Archive - Inside</title>
-	<link rel="stylesheet" href="/static/mblog/css/archive.min.css">
+	<link rel="stylesheet" href="/static/mblog/css/archive.css">
 	<script src="//cdn.bootcss.com/jquery/2.2.1/jquery.min.js"></script>
 	<script src="//cdn.bootcss.com/vue/1.0.17/vue.min.js"></script>
+	<!-- <script src="/static/mblog/js/jquery.min.js"></script> -->
 	<!-- <script src="/static/mblog/js/vue.js"></script> -->
 </head>
 <body>
@@ -21,6 +22,7 @@
 			</div>
 			<div class="time">{{ post.pub_date }}</div>
 		</div>
+		<div class="more" v-show="ready" v-on:mouseover="get_more">{{ posts_end?"No More":"More…" }}</div>
 	</div>
 	<script src="/static/mblog/js/archive.min.js"></script>
 </body>
