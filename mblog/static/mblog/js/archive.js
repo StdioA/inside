@@ -1,17 +1,10 @@
 "use strict";
 
-var app = new Vue({
-	data: {
-		ready: false,
-		posts: [],
-		more: {
-			more_lock: false,
-			posts_end: false
-		}
-	},
+var post_note = Vue.component("postnote", {
+	template: "#post-note",
+	props: ["post"],
 	methods: {
 		enter: function (post) {
-			// var post = event.target.id.replace("post-", "")
 			var post_id = post.id;
 			location.href = "/"+post_id;
 		},
@@ -23,7 +16,20 @@ var app = new Vue({
 					return line;
 				});
 			return summary;
-		},
+		}
+	}
+});
+
+var app = new Vue({
+	data: {
+		ready: false,
+		posts: [],
+		more: {
+			more_lock: false,
+			posts_end: false
+		}
+	},
+	methods: {
 		get_more: function (event) {
 			var count = 6;							// 每次获取的post数量
 			var app = this;

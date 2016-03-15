@@ -36,7 +36,7 @@ div.more {
 	font-size: 1.5em;
 }
 
-.post-it-note .hash, .post-it-note .time {
+.post-it-note .hash, .post-it-note .time, .disabled {
 	pointer-events: none;
 }
 
