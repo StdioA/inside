@@ -65,6 +65,23 @@ var app = new Vue({
 				history.pushState({}, "", "/"+post_id);
 			});
 		}
+	},
+	init: function () {
+		var post_id = window.location.pathname.split("/")[1];
+		var app = this;
+
+		$.getJSON("/api/"+post_id, function (data, status) {
+			if (status == "success" && data.success) {
+				app.post_id = data.post.id;
+				app.post = data.post;
+				app.previous_id = data.previous_id;
+				app.next_id = data.next_id;
+			}
+			else {
+				app.error.status = true;
+				app.error.message = data.reason;
+			}
+		});
 	}
 });
 
@@ -74,19 +91,6 @@ $(document).ready(function () {
 	var color = colors[Math.floor(Math.random()*colors.length)];
 	$("body").addClass("bg-"+color);
 
-	var post_id = window.location.pathname.split("/")[1];
-	$.getJSON("/api/"+post_id, function (data, status) {
-		if (status == "success" && data.success) {
-			app.post_id = data.post.id;
-			app.post = data.post;
-			app.previous_id = data.previous_id;
-			app.next_id = data.next_id;
-		}
-		else {
-			app.error.status = true;
-			app.error.message = data.reason;
-		}
-		app.$mount("#content_bg");
-	});
+	app.$mount("#content_bg");
 });
 

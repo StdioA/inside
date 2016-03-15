@@ -48,22 +48,24 @@ var app = new Vue({
 				});
 			}
 		}
+	},
+	init: function () {
+		var app = this;
+		var lat = Number(location.hash.replace("#", ""));
+		if (isNaN(lat) || lat <= 0) {
+			lat = "";
+		}
+		else {
+			lat = String(lat);
+		}
+		$.get("/api/archive/"+lat, function (data) {
+			app.posts = data.posts;
+			app.ready = true;
+		});
 	}
 });
 
 $(document).ready(function () {
-	var lat = Number(location.hash.replace("#", ""));
-	if (isNaN(lat) || lat <= 0) {
-		lat = "";
-	}
-	else {
-		lat = String(lat);
-	}
-
-	$.get("/api/archive/"+lat, function (data) {
-		app.posts = data.posts;
-		app.$mount("#archives");
-		app.ready = true;
-	});
+	app.$mount("#archives");
 });
 
