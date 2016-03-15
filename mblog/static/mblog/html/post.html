@@ -22,7 +22,7 @@
 			</div>
 		</div>
 		<div v-show="show" transition="fade">
-			<div v-show="!error.status">
+			<template v-if="!error.status">
 				<div class="row">
 					<div class="col v2">
 						<p v-for="line in post.content.split('\n')" track-by="$index">{{{ line }}}</p>
@@ -33,14 +33,14 @@
 						<p>{{ post.pub_date }}</p>
 					</div>
 				</div>
-			</div>
-			<div v-else>
+			</template>
+			<template v-else>
 				<div class="center row">
 					<div class="col v2">
 						<h2>{{ error.message }}</h2>
 					</div>
 				</div>
-			</div>
+			</template>
 			<div class="row">
 				<div class="col v2">
 					<h3>Comments</h3>
@@ -56,7 +56,7 @@
 							<input type="text" class="form-r" name="content" />
 						</p>
 						<p>
-							<button v-on:click="add_comment" value="评论">评论</button>
+							<button @click="add_comment" value="评论">评论</button>
 						</p>
 					</div>
 				</div>
@@ -64,10 +64,10 @@
 			<div class="row">
 				<div class="col v2 center">
 					<div class="col {{ previous_id?'':'disabled' }}">
-						<button v-on:click="jump" id="pageup">上一篇</button>
+						<button @click="jump" id="pageup">上一篇</button>
 					</div>
 					<div class="col {{ next_id?'':'disabled' }}">
-						<button v-on:click="jump" id="pagedown">下一篇</button>
+						<button @click="jump" id="pagedown">下一篇</button>
 					</div>
 				</div>
 			</div>		

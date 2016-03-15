@@ -534,6 +534,7 @@ nav a:hover {
 button, input[type=submit], textarea {
     background: rgba(0,0,0,0.15);
     border: 0;
+    border-radius: 5px;
     color: #000;
     padding: 0 1em;
     box-sizing: border-box;
@@ -543,7 +544,8 @@ textarea {
     padding: 1em;
     font-size: 1.05em;
     min-height: 10em;
-    min-width: 25em;
+    width: 90%;
+    /*min-width: 25em;*/
     text-align: left!important;
 }
 ::-webkit-scrollbar {
