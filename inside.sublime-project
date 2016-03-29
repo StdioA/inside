@@ -1,0 +1,30 @@
+{
+	"build_systems":
+	[
+		{
+			"cmd":
+			[
+				"cmd",
+				"/c",
+				"start",
+				"cmd",
+				"/c",
+				"python",
+				"-u",
+				"manage.py",
+				"runserver"
+			],
+			"name": "Python - Django"
+		}
+	],
+	"folders":
+	[
+		{
+			"folder_exclude_patterns":
+			[
+				"node_modules"
+			],
+			"path": "."
+		}
+	]
+}

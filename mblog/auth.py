@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth import authenticate, login, logout
 from django.conf import settings
 
+
 def user_login(request):
     next_url = request.GET.dict().get("next", "/0")
 

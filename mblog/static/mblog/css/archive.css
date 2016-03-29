@@ -122,13 +122,13 @@ p {
   border-color: #58c5e5 transparent;
 }
 .pink {
-  background-color: #fe8dc0;
+  background-color: #f791bf;
 }
 .pink:after {
-  border-color: #fe8dc0;
+  border-color: #f791bf;
 }
 .pink:before {
-  border-color: #fd4196 transparent;
+  border-color: #f24a96 transparent;
 }
 .green {
   background-color: #d1ef6b;
