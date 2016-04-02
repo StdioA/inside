@@ -11,7 +11,11 @@ from .models import Post, Comment
 # Create your views here.
 def index(request):
     post = Post.objects.filter(exist=True).order_by("pk").last()
-    return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
+    if post:
+        return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
+    else:
+        raise Http404
+        # return HttpResponseRedirect(reverse(''))
 
 
 def view_post(request, pk):
