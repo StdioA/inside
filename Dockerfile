@@ -4,4 +4,4 @@ COPY . /usr/src/app
 WORKDIR /usr/src/app
 EXPOSE 8000
 RUN sh ./deploy.sh
-CMD [ "python", "manage.py", "runserver"]
+ENTRYPOINT [ "python", "manage.py", "runserver", "0.0.0.0:8000"]
