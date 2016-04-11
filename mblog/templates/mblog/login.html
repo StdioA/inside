@@ -15,7 +15,7 @@
 				<input type="submit" value="login" />
 			</form>
 			{% else %}
-				<p>You're logged in!</p>
+				<p>You're logged in as {{ request.user.username }}~</p>
 				<button>
 					<a href="{% url 'mblog:logout' %}">Log out</a>
 				</button>

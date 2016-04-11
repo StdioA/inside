@@ -8,16 +8,21 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
 
-# Create your views here.
+
+@login_required
 def index(request):
     post = Post.objects.filter(exist=True).order_by("pk").last()
-    return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
+    if post:
+        return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
+    else:
+        raise Http404
 
-
+@login_required
 def view_post(request, pk):
-    if request.user.is_authenticated():
+    if request.user.has_perm("mblog.change_post"):
         post = get_object_or_404(Post, pk=pk)
         pk = post.id
+
         try:
             previous_post_id = Post.objects.filter(pk__lt=pk).order_by("-pk")[0].id
         except (Post.DoesNotExist, IndexError):
@@ -33,16 +38,18 @@ def view_post(request, pk):
                     "next": next_post_id
                 }
         return render(request, "mblog/edit.html", context)
+
     else:
         with file("mblog/static/mblog/html/post.html", "r") as f:
             return HttpResponse(f.read())
 
+@login_required
 def archive(request):
     with file("mblog/static/mblog/html/archive.html", "r") as f:
         return HttpResponse(f.read())
 
 @login_required
-def manage_post(request):
+def add_post(request):
     if request.method == "GET":
         return render(request, "mblog/new.html")
     elif request.method == "POST":
