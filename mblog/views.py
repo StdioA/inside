@@ -8,14 +8,14 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Post, Comment
 
-# Create your views here.
+
+@login_required
 def index(request):
     post = Post.objects.filter(exist=True).order_by("pk").last()
     if post:
         return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))
     else:
         raise Http404
-        # return HttpResponseRedirect(reverse(''))
 
 @login_required
 def view_post(request, pk):
@@ -38,7 +38,7 @@ def view_post(request, pk):
                     "next": next_post_id
                 }
         return render(request, "mblog/edit.html", context)
-        
+
     else:
         with file("mblog/static/mblog/html/post.html", "r") as f:
             return HttpResponse(f.read())

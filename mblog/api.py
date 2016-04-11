@@ -85,7 +85,7 @@ def post(request, post_id):
 
                 post = Post.objects.get(pk=post_id)
                 post.content = request.POST["content"]
-                post.exist = request.POST["exist"]
+                post.exist = (request.POST["exist"] == "true")
                 post.save()
                 return JsonResponse({"success": True})
 
@@ -146,9 +146,9 @@ def archive(request, post_id, number):
                 }, status=401)
 
 
-def get_latest(request):
-    """DEPRECATED"""
-    post_id = Post.objects.filter(exist=True).order_by("-pk").first().id;
-    return JsonResponse({
-            "latest": post_id
-        })
+# def get_latest(request):
+#     """DEPRECATED"""
+#     post_id = Post.objects.filter(exist=True).order_by("-pk").first().id;
+#     return JsonResponse({
+#             "latest": post_id
+#         })
