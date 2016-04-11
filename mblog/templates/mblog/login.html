@@ -8,12 +8,17 @@
 		<div class="col v2 center">
 			<h1>Login</h1>
 			{% if not request.user.is_authenticated %}
-			<form action="{{ request.get_full_path }}" method="post">
-				{% csrf_token %}
-				<p>Username: <input type="text" name="username" /></p>
-				<p>Password: <input type="password" name="password" /></p>
-				<input type="submit" value="login" />
-			</form>
+				{% if error %}
+				<div class="error">
+					{{ error }}
+				</div>
+				{% endif %}
+				<form action="{{ request.get_full_path }}" method="post">
+					{% csrf_token %}
+					<p>Username: <input type="text" name="username" /></p>
+					<p>Password: <input type="password" name="password" /></p>
+					<input type="submit" value="login" />
+				</form>
 			{% else %}
 				<p>You're logged in as {{ request.user.username }}~</p>
 				<button>

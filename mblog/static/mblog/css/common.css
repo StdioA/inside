@@ -561,3 +561,11 @@ button:active {
 .bg-purple {
   background: #f9f1f8;
 }
+.error {
+  width: 50%;
+  margin: 0 auto;
+  padding: 2px 5px;
+  background: #ffc354;
+  border: 1px #ff8585 solid;
+  border-radius: 14px;
+}

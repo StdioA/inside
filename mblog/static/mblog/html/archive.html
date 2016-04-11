@@ -13,7 +13,7 @@
 <body>
 	<h1>Archive</h1>
 	<template id="post-note">
-		<div class="post-it-note {{ color }}" id="post-{{ post.id }}" @click="enter(post)">
+		<div class="post-it-note {{* color }}" id="post-{{* post.id }}" @click="enter(post)">
 			<div class="hash">#{{ post.id }}</div>
 			<div class="content">
 				<p v-for="line in get_summary(post)" track-by="$index">

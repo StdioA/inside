@@ -1,3 +1,5 @@
+# coding: utf-8
+
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.core.urlresolvers import reverse
@@ -14,12 +16,15 @@ def user_login(request):
         username = request.POST['username']
         password = request.POST['password']
         user = authenticate(username=username, password=password)
-        if user is not None:
-            if user.is_active:
-                login(request, user)
-                return HttpResponseRedirect(next_url)
+        if (user is not None) and user.is_active:
+            login(request, user)
+            return HttpResponseRedirect(next_url)
         else:
-            return HttpResponseRedirect(request.get_full_path())
+            error_message = "Invalid username or password (╯3╰)"
+            return render(request, "mblog/login.html", {
+                    "error": error_message
+                })
+            # return HttpResponseRedirect(request.get_full_path())
 
 
 def user_logout(request):

@@ -3,8 +3,10 @@
 var post_note = Vue.component("postnote", {
   template: "#post-note",
   data: function () {
+    var colors = ["pink", "blue", "green", "orange", "yellow"];
+    var color = colors[Math.floor(Math.random()*colors.length)];
     return {
-      color: ""
+      color: color
     }
   },
   props: ["post"],
@@ -22,10 +24,6 @@ var post_note = Vue.component("postnote", {
         });
       return summary;
     }
-  },
-  ready: function () {
-    var colors = ["pink", "blue", "green", "orange", "yellow"]
-    this.color = colors[Math.floor(Math.random()*colors.length)];
   }
 });
 
@@ -67,9 +65,16 @@ var app = new Vue({
     else {
       lat = String(lat);
     }
-    $.get("/api/archive/"+lat, function (data) {
-      app.posts = data.posts;
-      app.ready = true;
+    $.getJSON("/api/archive/"+lat, function (data, status) {
+      if (status == "success" && data.success) {
+        app.posts = data.posts;
+        app.ready = true;
+      }
+      else {
+        console.log(data);
+        console.log(status);
+        location.href = "/login";
+      }
     });
   }
 });
