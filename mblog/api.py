@@ -144,11 +144,3 @@ def archive(request, post_id, number):
                     "success": False,
                     "reason": "Login required"
                 }, status=401)
-
-
-# def get_latest(request):
-#     """DEPRECATED"""
-#     post_id = Post.objects.filter(exist=True).order_by("-pk").first().id;
-#     return JsonResponse({
-#             "latest": post_id
-#         })
