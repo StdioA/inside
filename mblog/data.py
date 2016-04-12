@@ -1,3 +1,4 @@
+import datetime
 import time
 import json
 import tempfile
@@ -10,6 +11,7 @@ def __get_post_data(post):
             "id": post.id,
             "content": post.content.encode("utf-8"),
             "pub_date": int(time.mktime(post.pub_date.timetuple())),
+            "exist": post.exist,
             "comments": []
         }
     for comment in post.comment_set.all():
@@ -21,7 +23,38 @@ def __get_post_data(post):
 def import_data(request):
     if not request.user.is_superuser:
         raise Http404
-    pass
+    
+    content = {}
+    if request.method == "POST":
+        data_file = request.FILES["data"]
+        data_str = data_file.read()
+
+        try:
+            posts = json.loads(data_str)["posts"]
+        except ValueError:
+            content["success"] = False
+            content["message"] = "JSON Parsing Error"
+            return render(request, "mblog/data-upload-result.html", content)
+
+        posts.sort(key=lambda o: o["pub_date"])
+
+        for p in posts:
+            pub_date = datetime.datetime.fromtimestamp(p["pub_date"])
+            post = Post(content=p["content"], pub_date=pub_date, exist=p["exist"])
+            post.save()
+
+            for c in p["comments"]:
+                comment = Comment(post=post, author=c["author"], content=c["content"])
+                comment.save()
+
+        content["success"] = True
+        content["message"] = "%d posts has been imported!"%len(posts)
+        return render(request, "mblog/data-upload-result.html", content)
+
+    elif request.method == "GET":
+        content["success"] = False
+        content["message"] = "Import the posts"
+        return render(request, "mblog/data-upload-result.html", content)
 
 
 def export_data(request):

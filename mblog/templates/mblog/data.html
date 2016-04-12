@@ -3,7 +3,14 @@
 {% block title %}Data{% endblock %}
 
 {% block content %}
-<div>
-	<a href="/data/inside-data.json">导出</a>
+<div id="content_bg">
+	<h1>Data Operation</h1>
+	<form enctype="multipart/form-data" action="{% url "mblog:import-data" %}" method="post">
+		{% csrf_token %}
+		<!-- <p><textarea name="content" rows="5" cols="20"></textarea></p> -->
+		<input type="file" name="data" />
+		<input type="submit" value="导入"></input>
+	</form>
+	<a href="/data/inside-data.json"><button>导出</button></a>
 </div>
 {% endblock %}
