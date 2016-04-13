@@ -4,7 +4,7 @@ import json
 import tempfile
 from django.http import JsonResponse, HttpResponse, FileResponse, Http404
 from django.shortcuts import render
-from .models import Post, Comment
+from mblog.models import Post, Comment
 
 def __get_post_data(post):
     result = {
@@ -26,7 +26,12 @@ def import_data(request):
     
     content = {}
     if request.method == "POST":
-        data_file = request.FILES["data"]
+        data_file = request.FILES.get("data", None)
+        if not data_file:
+            content["success"] = False
+            content["message"] = "Please Select data file."
+            return render(request, "backstage/data-upload-result.html", content)
+
         data_str = data_file.read()
 
         try:
@@ -34,7 +39,7 @@ def import_data(request):
         except ValueError:
             content["success"] = False
             content["message"] = "JSON Parsing Error"
-            return render(request, "mblog/data-upload-result.html", content)
+            return render(request, "backstage/data-upload-result.html", content)
 
         posts.sort(key=lambda o: o["pub_date"])
 
@@ -49,7 +54,7 @@ def import_data(request):
 
         content["success"] = True
         content["message"] = "%d posts has been imported!"%len(posts)
-        return render(request, "mblog/data-upload-result.html", content)
+        return render(request, "backstage/data-upload-result.html", content)
 
     elif request.method == "GET":
         content["success"] = False
@@ -73,8 +78,9 @@ def export_data(request):
     response["Content-Type"] = "application/octet-stream"
     return response
 
+
 def data(request):
     if not request.user.is_superuser:
         raise Http404
 
-    return render(request, "mblog/data.html")
+    return render(request, "backstage/data.html")

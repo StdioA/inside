@@ -2,7 +2,7 @@
 # TODO: Build API using Django REST Framework
 
 from django.http import JsonResponse
-from .models import Post, Comment
+from mblog.models import Post, Comment
 
 
 def __get_post_data(post):

@@ -19,4 +19,6 @@ from django.contrib import admin
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('mblog.urls')),
+    url(r'^api/', include('api.urls')),
+    url(r'^manage/', include('backstage.urls')),
 ]
