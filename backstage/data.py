@@ -76,6 +76,7 @@ def export_data(request):
 
     response = FileResponse(f)
     response["Content-Type"] = "application/octet-stream"
+    response["Content-Disposition"] = "attachment; filename=\"inside-data.json\""
     return response
 
 
