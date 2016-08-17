@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
 CurDir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-Image="stdio/inside:v1"
-ContainerName="inside_test"
+Image="stdioa/inside:v1"
+ContainerName="inside_container"
 
 build-img() {
   docker build -t ${Image} .
@@ -18,6 +18,7 @@ start() {
     -p 8000:8000 \
     -v ${CurDir}:/usr/src/app \
     ${Image}
+    # -v /$(pwd):/usr/src/app \
 }
 
 reload() {

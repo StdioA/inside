@@ -11,7 +11,7 @@ class Post(models.Model):
     exist = models.BooleanField(default=True)
 
     def __str__(self):
-        return self.content.encode("utf-8")
+        return self.content
         # return self.id
 
     def get_obj(self):
@@ -29,7 +29,7 @@ class Comment(models.Model):
     author = models.CharField(max_length=32)
 
     def __str__(self):
-        return self.content.encode("utf-8")
+        return self.content
 
     def get_obj(self):
         return {

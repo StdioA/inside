@@ -6,7 +6,7 @@ def init():
     if len(sus) == 0:
         User.objects.create_superuser('admin', 'myemail@example.com', 'password')
     else:
-        print "There's already a super user"
+        print("There's already a super user")
 
 
     try:
@@ -19,7 +19,7 @@ def init():
         writer_group.permissions.add(add_post, change_post)
         writer_group.save()
     else:
-        print "The group Writer already exists"
+        print("The group Writer already exists")
 
 
     try:
@@ -29,6 +29,6 @@ def init():
         manager.groups.add(writer_group)
         manager.save()
     else:
-        print "The user 'manager' already exists"
+        print("The user 'manager' already exists")
 
-    print("Auth Done")
+    print("Auth operations has done.")
