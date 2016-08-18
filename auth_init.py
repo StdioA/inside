@@ -1,3 +1,4 @@
+import os
 from django.contrib.auth.models import User, Group, Permission
 
 
@@ -32,3 +33,7 @@ def init():
         print("The user 'manager' already exists")
 
     print("Auth operations has done.")
+
+
+if __name__ == '__main__':
+    init()

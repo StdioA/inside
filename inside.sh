@@ -14,7 +14,7 @@ stop() {
 }
 
 start() {
-  docker run --name ${ContainerName} --rm \
+  docker run --name ${ContainerName} -d \
     -p 8000:8000 \
     -v ${CurDir}:/usr/src/app \
     ${Image}
