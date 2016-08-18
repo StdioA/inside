@@ -39,12 +39,12 @@ def view_post(request, pk):
         return render(request, "mblog/edit.html", context)
 
     else:
-        with file("mblog/static/mblog/html/post.html", "r") as f:
+        with open("mblog/static/mblog/html/post.html", "r") as f:
             return HttpResponse(f.read())
 
 @login_required
 def archive(request):
-    with file("mblog/static/mblog/html/archive.html", "r") as f:
+    with open("mblog/static/mblog/html/archive.html", "r") as f:
         return HttpResponse(f.read())
 
 @login_required

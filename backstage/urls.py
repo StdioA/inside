@@ -1,5 +1,5 @@
 from django.conf.urls import include, url
-import data
+from backstage import data
 
 app_name = 'backstage'
 urlpatterns = [
