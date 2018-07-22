@@ -1,6 +1,7 @@
 from django.conf.urls import include, url
 from . import views
 
+
 app_name = 'api'
 urlpatterns = [
     url(r'^comment/(?P<post_id>\d+)/?$', views.comment, name='api-comment'),

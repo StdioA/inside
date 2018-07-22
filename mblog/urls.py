@@ -2,6 +2,7 @@ from django.conf.urls import include, url
 from . import views
 from . import auth
 
+
 app_name = 'mblog'
 urlpatterns = [
     url(r'^$', views.index, name='index'),
