@@ -1,7 +1,7 @@
 import datetime
 from django.shortcuts import render, get_object_or_404
 from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.views import generic
 from django.contrib.auth.decorators import login_required
 
@@ -39,12 +39,12 @@ def view_post(request, pk):
         return render(request, "mblog/edit.html", context)
 
     else:
-        with file("mblog/static/mblog/html/post.html", "r") as f:
+        with open("mblog/static/mblog/html/post.html", "r", encoding='utf-8') as f:
             return HttpResponse(f.read())
 
 @login_required
 def archive(request):
-    with file("mblog/static/mblog/html/archive.html", "r") as f:
+    with open("mblog/static/mblog/html/archive.html", "r", encoding='utf-8') as f:
         return HttpResponse(f.read())
 
 @login_required
@@ -52,7 +52,6 @@ def add_post(request):
     if request.method == "GET":
         return render(request, "mblog/new.html")
     elif request.method == "POST":
-        post = Post(content=request.POST["content"],
-                    pub_date=datetime.datetime.now())
+        post = Post(content=request.POST["content"])
         post.save()
         return HttpResponseRedirect(reverse('mblog:post', kwargs={"pk": post.id}))

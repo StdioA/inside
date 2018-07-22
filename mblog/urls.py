@@ -1,6 +1,6 @@
 from django.conf.urls import include, url
-import views
-import auth
+from . import views
+from . import auth
 
 app_name = 'mblog'
 urlpatterns = [

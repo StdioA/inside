@@ -1,9 +1,9 @@
 from django.conf.urls import include, url
-import data
+from . import views
 
 app_name = 'backstage'
 urlpatterns = [
-    url(r'^data/import/?$', data.import_data, name='import-data'),
-    url(r'^data/export/?$', data.export_data, name='export-data'),
-    url(r'^data/?$', data.data, name='data'),
+    url(r'^data/import/?$', views.import_data, name='import-data'),
+    url(r'^data/export/?$', views.export_data, name='export-data'),
+    url(r'^data/?$', views.index, name='data'),
 ]
