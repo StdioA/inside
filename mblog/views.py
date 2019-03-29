@@ -1,9 +1,10 @@
 from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse, HttpResponseRedirect, Http404
+from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 
-from .models import Post
+from mblog.models import Post
+from mblog.utils import serve_static
 
 
 @login_required
@@ -20,34 +21,25 @@ def index(request):
 def view_post(request, pk):
     if request.user.has_perm("mblog.change_post"):
         post = get_object_or_404(Post, pk=pk)
-        pk = post.id
 
-        try:
-            previous_post_id = Post.objects.filter(
-                pk__lt=pk).order_by("-pk")[0].id
-        except (Post.DoesNotExist, IndexError):
-            previous_post_id = 0
-        try:
-            next_post_id = Post.objects.filter(pk__gt=pk)[0].id
-        except (Post.DoesNotExist, IndexError):
-            next_post_id = 0
+        previous_post = Post.objects.filter(pk__lt=pk).order_by("-pk").first()
+        previous_post_id = previous_post.id if previous_post else 0
+        next_post = Post.objects.filter(pk__gt=pk).first()
+        next_post_id = next_post.id if next_post else 0
 
         context = {
-                    "post": post,
-                    "previous": previous_post_id,
-                    "next": next_post_id
-                }
+            "post": post,
+            "previous": previous_post_id,
+            "next": next_post_id
+        }
         return render(request, "mblog/edit.html", context)
-
     else:
-        with open("mblog/static/mblog/html/post.html", encoding='utf-8') as f:
-            return HttpResponse(f.read())
+        return serve_static("mblog/static/mblog/html/post.html")
 
 
 @login_required
 def archive(request):
-    with open("mblog/static/mblog/html/archive.html", encoding='utf-8') as f:
-        return HttpResponse(f.read())
+    return serve_static("mblog/static/mblog/html/archive.html")
 
 
 @login_required
