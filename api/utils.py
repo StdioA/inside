@@ -37,7 +37,7 @@ class LoginRequiredMixin:
             }, status=401)
 
         permission_dict = getattr(self, "permission_dict", {})
-        permission = permission_dict.get(request.method)
+        permission = permission_dict.get(request.method.lower())
         if permission and not request.user.has_perm(permission):
             return JsonResponse({
                 "success": False,
