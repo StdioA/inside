@@ -15,9 +15,6 @@ def api_login_required(func):
 
 
 def api_perm_required(perm):
-    """
-    TODO
-    """
     def decorator(func):
         def wrapped(self, request, *args, **kwargs):
             if not request.user.has_perm(perm):
