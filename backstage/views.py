@@ -16,7 +16,7 @@ def __render_post(post):
             "comments": []
         }
     for comment in post.comment_set.all():
-        result["comments"].append(comment.get_obj())
+        result["comments"].append(comment.serialize())
 
     return result
 

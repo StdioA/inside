@@ -27,6 +27,18 @@ class Post(models.Model):
     def get_time(self):
         return self.pub_date.strftime("%Y-%m-%d %H:%M:%S")
 
+    def serialize(self):
+        result = {
+            "id": self.id,
+            "content": self.content,
+            "pub_date": self.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
+            "comments": []
+        }
+        for comment in self.comment_set.all():
+            result["comments"].append(comment.serialize())
+
+        return result
+
 
 class Comment(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE)
@@ -37,14 +49,14 @@ class Comment(models.Model):
     def abstract(self):
         content = self.content
         if len(content) > 15:
-            return content[:15]+"..."
+            return content[:15] + "..."
         else:
             return content
 
     def __str__(self):
         return self.abstract
 
-    def get_obj(self):
+    def serialize(self):
         return {
             "content": self.content,
             "author": self.author,
