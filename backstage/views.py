@@ -31,7 +31,7 @@ class DataImportView(View):
         try:
             posts = json.loads(data_str)["posts"]
         except ValueError:
-            raise ValueError("JSON Parsing Error")
+            raise ValueError("JSON parsing error")
         return posts
 
     def post(self, request):
