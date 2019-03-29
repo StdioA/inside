@@ -1,0 +1,5 @@
+-r requirements.txt
+coveralls
+codeclimate-test-reporter
+flake8
+coverage
