@@ -3,6 +3,7 @@ from django.contrib.auth.models import User, Group, Permission
 
 
 class Command(BaseCommand):
+
     def handle(*args, **kwargs):
         sus = User.objects.filter(is_superuser=True).first()
         if not sus:
@@ -22,7 +23,6 @@ class Command(BaseCommand):
             writer_group.save()
         else:
             print("The group Writer already exists")
-
 
         try:
             manager = User.objects.get(username="manager")

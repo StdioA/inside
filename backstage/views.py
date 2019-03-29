@@ -2,9 +2,10 @@ import datetime
 import time
 import json
 import tempfile
-from django.http import JsonResponse, HttpResponse, FileResponse, Http404
+from django.http import FileResponse, Http404
 from django.shortcuts import render
 from mblog.models import Post, Comment
+
 
 def __render_post(post):
     result = {
@@ -23,14 +24,15 @@ def __render_post(post):
 def import_data(request):
     if not request.user.is_superuser:
         raise Http404
-    
+
     content = {}
     if request.method == "POST":
         data_file = request.FILES.get("data", None)
         if not data_file:
             content["success"] = False
             content["message"] = "Please Select data file."
-            return render(request, "backstage/data-upload-result.html", content)
+            return render(request, "backstage/data-upload-result.html",
+                          content)
 
         data_str = data_file.read()
 
@@ -39,21 +41,24 @@ def import_data(request):
         except ValueError:
             content["success"] = False
             content["message"] = "JSON Parsing Error"
-            return render(request, "backstage/data-upload-result.html", content)
+            return render(request, "backstage/data-upload-result.html",
+                          content)
 
         posts.sort(key=lambda o: o["pub_date"])
 
         for p in posts:
             pub_date = datetime.datetime.fromtimestamp(p["pub_date"])
-            post = Post(content=p["content"], pub_date=pub_date, exist=p["exist"])
+            post = Post(content=p["content"], pub_date=pub_date,
+                        exist=p["exist"])
             post.save()
 
             for c in p["comments"]:
-                comment = Comment(post=post, author=c["author"], content=c["content"])
+                comment = Comment(post=post, author=c["author"],
+                                  content=c["content"])
                 comment.save()
 
         content["success"] = True
-        content["message"] = "%d posts has been imported!"%len(posts)
+        content["message"] = "%d posts has been imported!" % len(posts)
         return render(request, "backstage/data-upload-result.html", content)
 
     elif request.method == "GET":
@@ -76,7 +81,8 @@ def export_data(request):
 
     response = FileResponse(f)
     response["Content-Type"] = "application/octet-stream"
-    response["Content-Disposition"] = "attachment; filename=\"inside-data.json\""
+    response["Content-Disposition"] = ('attachment; filename='
+                                       '\"inside-data.json\"')
     return response
 
 

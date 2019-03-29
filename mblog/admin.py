@@ -1,12 +1,11 @@
-# coding: utf-8
-
 from django.contrib import admin
 from .models import Post, Comment
+
 
 class PostAdmin(admin.ModelAdmin):
     list_display = ("get_content", "exist", "pub_date")
     fields = ["content", "exist", "pub_date"]
-    
+
     def get_content(self, obj):
         return obj.abstract
 
@@ -20,6 +19,7 @@ class CommentAdmin(admin.ModelAdmin):
         return obj.abstract
 
     get_post_content.short_description = "Content"
+
 
 # Register your models here.
 admin.site.register(Post, PostAdmin)
