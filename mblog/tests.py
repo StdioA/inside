@@ -5,18 +5,17 @@ from mblog.models import Post
 
 class MBlogAppTest(TestCase):
     def setUp(self):
-        self.user = User.objects.create_superuser(
+        self.admin = User.objects.create_superuser(
             "admin", "email", "password")
-        self.user2 = User.objects.create_user(
+        self.user = User.objects.create_user(
             "user", "email", "password")
         self.client = Client()
 
     def tearDown(self):
-        for model in (User, Post):
-            model.objects.all().delete()
+        User.objects.all().delete()
 
     def login(self, user=None):
-        user = user or self.user
+        user = user or self.admin
         self.client.force_login(user)
 
     def test_login_logout(self):
@@ -99,12 +98,12 @@ class MBlogAppTest(TestCase):
         post = Post.objects.create(content="hhhhhh")
         url = "/{}".format(post.id)
         # Normal user will visit a static page
-        self.login(self.user2)
+        self.login(self.user)
         res = self.client.get(url)
         self.assertIsNone(res.context)
 
         # Admin will visit a dynamic page
-        self.login(self.user)
+        self.login(self.admin)
         res = self.client.get(url)
         self.assertEqual(res.context["post"], post)
         self.assertEqual(res.context["previous"], 0)    # no post before
