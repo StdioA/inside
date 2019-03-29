@@ -2,4 +2,4 @@
 coveralls
 codeclimate-test-reporter
 flake8
-coverage
+coverage>=4.0,<4.4
