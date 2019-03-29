@@ -23,8 +23,10 @@ def comment(request, post_id):
         try:
             post = Post.objects.get(pk=post_id, exist=True)
         except Post.DoesNotExist:
-            return JsonResponse({"success": False, "reason": "Post does not exist"},
-                                    status=404)
+            return JsonResponse({
+                "success": False,
+                "reason": "Post does not exist"
+            }, status=404)
 
         if request.method == "GET":
             result = {
@@ -36,7 +38,7 @@ def comment(request, post_id):
                 result["comments"].append(comment.get_obj())
             return JsonResponse(result)
         elif request.method == "POST":
-            comment = Comment(post=post, 
+            comment = Comment(post=post,
                               author=request.POST["author"],
                               content=request.POST["content"])
             comment.save()
@@ -54,12 +56,15 @@ def post(request, post_id):
             try:
                 post = Post.objects.get(pk=post_id, exist=True)
             except Post.DoesNotExist:
-                return JsonResponse({"success": False, "reason": "Post does not exist"},
-                                        status=404)
+                return JsonResponse({
+                    "success": False,
+                    "reason": "Post does not exist"
+                }, status=404)
 
             pk = post_id
             try:
-                previous_post_id = Post.objects.filter(pk__lt=pk, exist=True).order_by("-pk")[0].id
+                previous_post_id = Post.objects.filter(
+                    pk__lt=pk, exist=True).order_by("-pk")[0].id
             except (Post.DoesNotExist, IndexError):
                 previous_post_id = 0
             try:
@@ -81,7 +86,10 @@ def post(request, post_id):
                 try:
                     post = Post.objects.get(pk=post_id)
                 except Post.DoesNotExist:
-                    return JsonResponse({"success": False, "reason": "Post does not exist"})
+                    return JsonResponse({
+                        "success": False,
+                        "reason": "Post does not exist"
+                    })
 
                 post = Post.objects.get(pk=post_id)
                 post.content = request.POST["content"]
@@ -94,13 +102,16 @@ def post(request, post_id):
                             "success": False,
                             "reason": "Unauthorized"
                         }, status=401)
-                
+
         elif request.method == "DELETE":                     # 删除POST
             if request.user.has_perm("mblog.change_post"):
                 try:
                     post = Post.objects.get(pk=post_id)
                 except Post.DoesNotExist:
-                    return JsonResponse({"success": False, "reason": "Post does not exist"})
+                    return JsonResponse({
+                        "success": False,
+                        "reason": "Post does not exist"
+                    })
 
                 post = Post.objects.get(pk=post_id)
                 post.exist = False

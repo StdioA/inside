@@ -1,10 +1,7 @@
-# coding: utf-8
-
-from django.http import HttpResponse, HttpResponseRedirect, Http404, JsonResponse
-from django.shortcuts import render, get_object_or_404
+from django.http import HttpResponseRedirect
+from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth import authenticate, login, logout
-from django.conf import settings
 
 
 def user_login(request):
