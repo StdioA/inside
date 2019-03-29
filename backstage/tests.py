@@ -6,16 +6,10 @@ from mblog.models import Post, Comment
 
 
 class BackStageTest(TestCase):
+    fixtures = ["post.json", "comment.json"]
+
     def setUp(self):
-        self.posts = []
-        for i in range(1, 10):
-            post = Post.objects.create(content="Content {}".format(i))
-            self.posts.append(post)
-            for j in (1, 0):
-                cid = i * 2 - j
-                Comment.objects.create(
-                    post=post, author="author_{}".format(cid),
-                    content="Comment {}".format(cid))
+        self.posts = list(Post.objects.all())
         self.client = Client()
         self.user = User.objects.create(username="user", is_superuser=True)
 
@@ -64,11 +58,13 @@ class BackStageTest(TestCase):
         self.assertEqual(res.context["message"], "JSON parsing error")
 
         # Normal condition
+        Post.objects.all().delete()
+        Comment.objects.all().delete()
         file = BytesIO(exported_data)
         res = self.client.post(import_url, {"data": file})
         self.assertTrue(res.context["success"])
         self.assertEqual(res.context["message"],
                          "%d posts has been imported!" % len(self.posts))
 
-        self.assertEqual(Post.objects.count(), 2 * len(self.posts))
-        self.assertEqual(Comment.objects.count(), 2 * 2 * len(self.posts))
+        self.assertEqual(Post.objects.count(), len(self.posts))
+        self.assertEqual(Comment.objects.count(), 2 * len(self.posts))
