@@ -1,4 +1,5 @@
 # coding: utf-8
+import time
 from django.db import models
 
 
@@ -21,17 +22,32 @@ class Post(models.Model):
     def get_obj(self):
         return {
             "content": self.content,
-            "pub_date": self.pub_date.strftime("%Y-%m-%d %H:%M:%S")
+            "pub_date": self.time_str
         }
 
-    def get_time(self):
+    @property
+    def time_str(self):
         return self.pub_date.strftime("%Y-%m-%d %H:%M:%S")
 
     def serialize(self):
         result = {
             "id": self.id,
             "content": self.content,
-            "pub_date": self.pub_date.strftime("%Y-%m-%d %H:%M:%S"),
+            "pub_date": self.time_str,
+            "comments": []
+        }
+        for comment in self.comment_set.all():
+            result["comments"].append(comment.serialize())
+
+        return result
+
+    @property
+    def dump_payload(self):
+        result = {
+            "id": self.id,
+            "content": self.content,
+            "pub_date": int(time.mktime(self.pub_date.timetuple())),
+            "exist": self.exist,
             "comments": []
         }
         for comment in self.comment_set.all():
