@@ -2,10 +2,11 @@ language: python
 python:
     - "3.6"
 install:
-    - pip install -q flake8 coverage
-    - pip install -q -r requirements.txt
-before_script:
-    - flake8 mblog api backstage --exclude=migrations
+    - pip install -r test-requirements.txt -U
 script:
+    - flake8 mblog api backstage --exclude=migrations
     - coverage run --source='.' manage.py test
     - coverage report
+after_success:
+    - codeclimate-test-reporter
+    - coveralls
