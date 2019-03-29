@@ -15,8 +15,6 @@ class BackStageTest(TestCase):
 
     def tearDown(self):
         User.objects.all().delete()
-        Post.objects.all().delete()
-        Comment.objects.all().delete()
 
     def test_data_view(self):
         """
