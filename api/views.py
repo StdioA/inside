@@ -42,8 +42,8 @@ class CommentView(LoginRequiredMixin, View):
 
 class PostView(LoginRequiredMixin, View):
     permission_dict = {
-        "post": "mblog.change_post",
-        "put": "mblog.change_post"
+        "put": "mblog.change_post",
+        "delete": "mblog.change_post",
     }
 
     def get(self, request, post_id):
@@ -66,7 +66,7 @@ class PostView(LoginRequiredMixin, View):
 
     def put(self, request, post_id):
         post = Post.objects.get(pk=post_id)
-        payload = json.loads(request.body)
+        payload = json.loads(request.body.decode())
         post.content = payload["content"]
         post.exist = payload["exist"]
         post.save()
