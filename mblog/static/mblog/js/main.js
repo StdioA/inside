@@ -17,7 +17,7 @@ function getCookie(name) {
     return cookieValue;
 }
 
-var app = new Vue({
+const app = new Vue({
 	data: {
 		show: true,
 		error: {status: false, message: ""},
@@ -29,49 +29,61 @@ var app = new Vue({
 	},
 	methods: {
 		add_comment: function (event) {
-			var app = this;
-			var post_data = {
-				csrfmiddlewaretoken: getCookie('csrftoken'),
+			const app = this;
+			const post_data = {
 				author: $("input[name=author]").val(),
 				content: $("input[name=content]").val()
 			};
-			$.post("/api/comment/"+this.post_id, post_data, function (data) {
-				if (data.success) {
-					app.post.comments.push({
-						author: post_data.author,
-						content: post_data.content
-					});
-					$("input[name=author]").val("");
-					$("input[name=content]").val("");
-				}
-			}, "JSON");
-			this.csrf_token = getCookie('csrftoken');
+			fetch("/api/comment/" + this.post_id, {
+				method: 'POST',
+				body: JSON.stringify(post_data),
+				headers: new Headers({
+					'Content-Type': 'application/json',
+					'X-CSRFToken': getCookie("csrftoken")
+				})
+			}).then(res => res.json())
+			  .then(data => {
+				  if (data.success) {
+					  app.post.comments.push({
+						  author: post_data.author,
+						  content: post_data.content
+					  });
+					  $("input[name=author]").val("");
+					  $("input[name=content]").val("");
+				  }
+			  }).catch(error => console.error('Error:', error));
+			this.csrf_token = getCookie("csrftoken");
 		},
-		jump: function (event) {
-			var post_id;
-			this.show = false;
+		jump: function(event) {
+			const app = this;
+			let post_id;
+			app.show = false;
 			if (event.target.id == "pageup") {
-				post_id = this.previous_id;
+				post_id = app.previous_id;
 			}
 			else if (event.target.id == "pagedown") {
-				post_id = this.next_id;
+				post_id = app.next_id;
 			}
-			$.getJSON("/api/"+post_id, function (data, status) {
+			fetch("api/post/" + post_id, {
+				credentials: "include"
+			}).then(res => res.json()).then(data => {
 				app.show = true;
 				app.post_id = data.post.id;
 				app.post = data.post;
 				app.previous_id = data.previous_id;
 				app.next_id = data.next_id;
-				history.pushState({}, "", "/"+post_id);
+				history.pushState({}, "", "/" + post_id);
 			});
 		}
 	},
 	init: function () {
-		var post_id = window.location.pathname.split("/")[1];
-		var app = this;
+		const post_id = window.location.pathname.split("/")[1];
+		const app = this;
 
-		$.getJSON("/api/"+post_id, function (data, status) {
-			if (status == "success" && data.success) {
+		fetch("api/post/" + post_id, {
+			credentials: "include"
+		}).then(res => res.json()).then(data => {
+			if (data.success) {
 				app.post_id = data.post.id;
 				app.post = data.post;
 				app.previous_id = data.previous_id;
@@ -81,16 +93,16 @@ var app = new Vue({
 				app.error.status = true;
 				app.error.message = data.reason;
 			}
-		});
+		})
 	}
 });
 
-$(document).ready(function () {
+(() => {
 	// 随机背景色
-	var colors = ["blue", "green", "yellow", "purple"];
-	var color = colors[Math.floor(Math.random()*colors.length)];
+	const colors = ["blue", "green", "yellow", "purple"];
+	const color = colors[Math.floor(Math.random()*colors.length)];
 	$("body").addClass("bg-"+color);
 
 	app.$mount("#content_bg");
-});
+})();
 

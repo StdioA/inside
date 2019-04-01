@@ -1,30 +1,47 @@
-var gulp  = require('gulp');
-var uglify = require('gulp-uglify');
-var uglifycss = require('gulp-uglifycss');
-var rename = require('gulp-rename');
-var less = require('gulp-less')
+const gulp  = require('gulp');
+const babel = require('gulp-babel');
+const uglify = require('gulp-uglify');
+const uglifycss = require('gulp-uglifycss');
+const rename = require('gulp-rename');
+const less = require('gulp-less')
+const clean = require('gulp-clean')
 
-gulp.task("compress-js", [], function () {
-	return gulp.src('./mblog/static/mblog/js/!(*.min).js')
-			.pipe(uglify())
-			.pipe(rename({ suffix: ".min" }))
-			.pipe(gulp.dest('./mblog/static/mblog/js/'))
+
+const js_output = './mblog/static/mblog/js/'
+const css_output = './mblog/static/mblog/css/'
+
+gulp.task("babel", () => {
+	gulp.src('./mblog/static/mblog/js/!(*.min).js')
+		.pipe(babel({
+			presets: ['@babel/env']
+		}))
+		.pipe(rename({ suffix: ".babel" }))
+		.pipe(gulp.dest(js_output))
 });
 
-gulp.task("less", [], function () {
+gulp.task("compress-js", ["babel"], () => {
+	return gulp.src('./mblog/static/mblog/js/*.babel.js')
+			.pipe(uglify())
+			.pipe(rename((path) => {
+				path.basename = path.basename.replace("babel", "min");
+			}))
+		.pipe(gulp.dest(js_output))
+});
+
+gulp.task("less", [], () => {
 	return gulp.src('./mblog/static/mblog/less/*.less')
 			.pipe(less())
-			.pipe(gulp.dest('./mblog/static/mblog/css/'))
-})
+			.pipe(gulp.dest(css_output))
+});
 
-gulp.task("compress-css", ["less"], function () {
+gulp.task("compress-css", ["less"], () => {
 	return gulp.src('./mblog/static/mblog/css/!(*.min).css')
 			.pipe(uglifycss())
 			.pipe(rename({ suffix: ".min" }))
-			.pipe(gulp.dest('./mblog/static/mblog/css/'))
+			.pipe(gulp.dest(css_output))
 });
 
-gulp.task('watch', ["compress-js", "compress-css"], function () {
+gulp.task('watch', ["compress-js", "compress-css"], () => {
 	var watcher_js = gulp.watch('./mblog/static/mblog/js/*.js', ['compress-js']);
 	var watcher_css = gulp.watch('./mblog/static/mblog/less/*.less', ['less', 'compress-css']);
 	
@@ -38,5 +55,9 @@ gulp.task('watch', ["compress-js", "compress-css"], function () {
 });
 
 gulp.task('compress', ['compress-js', 'compress-css']);
+gulp.task('clean', ['compress'], () => {
+	return gulp.src('./mblog/static/mblog/js/*babel*.js')
+			   .pipe(clean());
+});
 
-gulp.task('default', ['compress']);
+gulp.task('default', ['compress', 'clean']);

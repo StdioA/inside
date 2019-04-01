@@ -4,7 +4,8 @@
   "description": "The front end pages of INSIDE",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "gulp"
   },
   "repository": {
     "type": "git",
@@ -18,9 +19,13 @@
   "homepage": "https://github.com/StdioA/inside#readme",
   "devDependencies": {
     "gulp": "^3.9.1",
+    "gulp-babel": "^8.0.0",
+    "gulp-clean": "^0.4.0",
     "gulp-less": "^3.0.5",
     "gulp-rename": "^1.2.2",
     "gulp-uglify": "^1.5.3",
-    "gulp-uglifycss": "^1.0.6"
+    "gulp-uglifycss": "^1.0.6",
+    "@babel/core": "^7.4.0",
+    "@babel/preset-env": "^7.4.2"
   }
 }
