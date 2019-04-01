@@ -1,3 +1,4 @@
+import json
 from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
@@ -51,3 +52,10 @@ class LoginRequiredMixin:
                 "success": False,
                 "reason": "Object does not exist"
             }, status=404)
+
+
+def parse_payload(request):
+    if request.content_type == "application/json":
+        return json.loads(request.body.decode())
+
+    return getattr(request, request.method.upper())

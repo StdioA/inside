@@ -1,8 +1,7 @@
-import json
 from django.http import JsonResponse
-from mblog.models import Post, Comment
-from api.utils import LoginRequiredMixin
 from django.views import View
+from mblog.models import Post, Comment
+from api.utils import LoginRequiredMixin, parse_payload
 
 
 class CommentView(LoginRequiredMixin, View):
@@ -33,7 +32,7 @@ class CommentView(LoginRequiredMixin, View):
                 "reason": "Post does not exist"
             }, status=404)
 
-        payload = json.loads(request.body.decode())
+        payload = parse_payload(request)
         comment = Comment(post=post,
                           author=payload["author"],
                           content=payload["content"])
@@ -67,7 +66,7 @@ class PostView(LoginRequiredMixin, View):
 
     def put(self, request, post_id):
         post = Post.objects.get(pk=post_id)
-        payload = json.loads(request.body.decode())
+        payload = parse_payload(request)
         post.content = payload["content"]
         post.exist = payload["exist"]
         post.save()
