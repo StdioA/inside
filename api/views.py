@@ -33,9 +33,10 @@ class CommentView(LoginRequiredMixin, View):
                 "reason": "Post does not exist"
             }, status=404)
 
+        payload = json.loads(request.body.decode())
         comment = Comment(post=post,
-                          author=request.POST["author"],
-                          content=request.POST["content"])
+                          author=payload["author"],
+                          content=payload["content"])
         comment.save()
         return JsonResponse({"success": True})
 
