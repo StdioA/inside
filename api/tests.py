@@ -56,6 +56,11 @@ class APITest(TestCase):
         data = res.json()
         self.assertEqual(len(data["posts"]), 0)
 
+        # Access without login
+        self.client.logout()
+        res = self.client.get(url)
+        self.assertEqual(res.status_code, 401)
+
     def test_comment_api(self):
         post = Post.objects.first()
         url = "/api/comment/{}/".format(post.id)

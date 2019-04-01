@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from django.core.exceptions import ObjectDoesNotExist
 
 
-def api_login_required(func):
+def api_login_required(func):                   # pragma: no cover
     def wrapped(request, *args, **kwargs):
         if not request.user.is_authenticated:
             return JsonResponse({
@@ -15,7 +15,7 @@ def api_login_required(func):
     return wrapped
 
 
-def api_perm_required(perm):
+def api_perm_required(perm):                   # pragma: no cover
     def decorator(func):
         def wrapped(self, request, *args, **kwargs):
             if not request.user.has_perm(perm):
