@@ -1,12 +1,11 @@
 "use strict";
 
-// using jQuery
 function getCookie(name) {
     var cookieValue = null;
     if (document.cookie && document.cookie != '') {
         var cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
-            var cookie = jQuery.trim(cookies[i]);
+            var cookie = cookies[i].trim();
             // Does this cookie string begin with the name we want?
             if (cookie.substring(0, name.length + 1) == (name + '=')) {
                 cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
@@ -25,14 +24,14 @@ const app = new Vue({
 		previous_id: 0,
 		next_id: 0,
 		post: {}, 
-		csrf_token: getCookie('csrftoken')
+		// csrf_token: getCookie('csrftoken')
 	},
 	methods: {
 		add_comment: function (event) {
 			const app = this;
 			const post_data = {
-				author: $("input[name=author]").val(),
-				content: $("input[name=content]").val()
+				author: document.querySelector("input[name=author]").value,
+				content: document.querySelector("input[name=content]").value
 			};
 			fetch("/api/comment/" + this.post_id, {
 				method: 'POST',
@@ -48,11 +47,11 @@ const app = new Vue({
 						  author: post_data.author,
 						  content: post_data.content
 					  });
-					  $("input[name=author]").val("");
-					  $("input[name=content]").val("");
+					  document.querySelector("input[name=author]").value = "";
+					  document.querySelector("input[name=content]").value = "";
 				  }
 			  }).catch(error => console.error('Error:', error));
-			this.csrf_token = getCookie("csrftoken");
+			// this.csrf_token = getCookie("csrftoken");
 		},
 		jump: function(event) {
 			const app = this;
@@ -101,7 +100,7 @@ const app = new Vue({
 	// 随机背景色
 	const colors = ["blue", "green", "yellow", "purple"];
 	const color = colors[Math.floor(Math.random()*colors.length)];
-	$("body").addClass("bg-"+color);
+	document.querySelector("body").classList.add("bg-" + color);
 
 	app.$mount("#content_bg");
 })();

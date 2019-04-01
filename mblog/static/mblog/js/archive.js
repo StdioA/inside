@@ -46,13 +46,14 @@ var app = new Vue({
       if (!app.more.more_lock) {
         app.more.more_lock = true;
 
-        $.get("api/archive/"+last_id+"/counts/"+count, function (data) {
-          app.posts = app.posts.concat(data.posts);
-          if (data.posts.length != count) {
-            app.more.posts_end = true;
-          }
-          app.more.more_lock = false;
-        });
+        fetch("api/archive/" + last_id + "/counts/" + count)
+          .then(res => res.json()).then(data => {
+            app.posts = app.posts.concat(data.posts);
+            if (data.posts.length != count) {
+              app.more.posts_end = true;
+            }
+            app.more.more_lock = false;
+          })
       }
     }
   },
@@ -65,21 +66,19 @@ var app = new Vue({
     else {
       lat = String(lat);
     }
-    $.getJSON("/api/archive/"+lat, function (data, status) {
-      if (status == "success" && data.success) {
-        app.posts = data.posts;
-        app.ready = true;
-      }
-      else {
-        console.log(data);
-        console.log(status);
-        location.href = "/login";
-      }
-    });
+    fetch("/api/archive/" + lat)
+      .then(res => res.json()).then(data => {
+        if (data.success) {
+          app.posts = data.posts;
+          app.ready = true;
+        } else {
+          location.href = "/login";
+        }
+      });
   }
 });
 
-$(document).ready(function () {
+(() => {
   app.$mount("#archives");
-});
+})();
 
