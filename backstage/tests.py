@@ -36,7 +36,7 @@ class BackStageTest(TestCase):
         res = self.client.get(export_url)
         self.assertEqual(res.status_code, 200)
         exported_data = list(res.streaming_content)[0]
-        data = json.loads(exported_data)
+        data = json.loads(exported_data.decode())
         self.assertEqual(len(data["posts"]), len(self.posts))
         for post_obj, post_payload in zip(self.posts, data["posts"]):
             for field in ("id", "exist", "content"):

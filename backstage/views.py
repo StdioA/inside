@@ -29,7 +29,7 @@ class DataImportView(View):
 
         data_str = data_file.read()
         try:
-            posts = json.loads(data_str)["posts"]
+            posts = json.loads(data_str.decode())["posts"]
         except ValueError:
             raise ValueError("JSON parsing error")
         return posts
